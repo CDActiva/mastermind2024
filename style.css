@@ -1,0 +1,43 @@
+#ui {
+    width: 50%;
+}
+
+#color_options, #current_combination, #button_container {
+    display: flex;
+    margin: 1.5em 0.3em;
+}
+
+
+.color_option_button, .current_combination_button {
+    height: 3em;
+    width: 3em;
+    margin-right: 1em;
+} 
+
+#option_coral{
+    background-color: coral;
+}
+
+#option_yellow{
+    background-color: yellow;
+}
+
+#option_purple{
+    background-color: purple;
+}
+
+#option_black{
+    background-color: black;
+}
+
+#option_green{
+    background-color: green;
+}
+
+#option_blue{
+    background-color: blue;
+}
+
+.current_combination_button{
+    background-color: gray;
+}
