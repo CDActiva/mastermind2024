@@ -14,30 +14,32 @@
     margin-right: 1em;
 } 
 
-#option_coral{
+
+
+.bg-coral{
     background-color: coral;
 }
 
-#option_yellow{
+.bg-yellow{
     background-color: yellow;
 }
 
-#option_purple{
+.bg-purple{
     background-color: purple;
 }
 
-#option_black{
+.bg-black{
     background-color: black;
 }
 
-#option_green{
+.bg-green{
     background-color: green;
 }
 
-#option_blue{
+.bg-blue{
     background-color: blue;
 }
 
-.current_combination_button{
+.bg-gray{
     background-color: gray;
 }
