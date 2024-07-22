@@ -2,13 +2,17 @@
     width: 50%;
 }
 
-#color_options, #current_combination, #button_container {
+body {
+    display: flex;
+}
+
+#color_options, #current_combination, #button_container, .historic_combination {
     display: flex;
     margin: 1.5em 0.3em;
 }
 
 
-.color_option_button, .current_combination_button {
+.color_option_button, .current_combination_button, .historic_square {
     height: 3em;
     width: 3em;
     margin-right: 1em;
