@@ -10,6 +10,41 @@ function createCurrentCombination(){
     return newCurrentCombination;
 }
 
+function generateFeedBack(currentCombination, targetCombination){
+    let rightPositions = [];
+    let misplacedPositions = [];
+    for(let i=0; i<=currentCombination.length-1; i++){
+        if(currentCombination[i]==targetCombination[i]){
+            rightPositions.push(i);
+        }
+    }
+    for(let i=0; i<=currentCombination.length-1; i++){
+        if (rightPositions.indexOf(i)==-1){
+            for(let j=0; j<=targetCombination.length-1; j++){
+                if (rightPositions.indexOf(j)==-1 && misplacedPositions.indexOf(i)==-1 && currentCombination[i]==targetCombination[j]) misplacedPositions.push(i);
+            }
+        }
+    }
+    return [rightPositions.length, misplacedPositions.length];
+}
+
+
+function paintFeedback(feedback){
+    let feedbackContainer = document.createElement("div");
+    feedbackContainer.classList.add("feedback");
+    for(let i=1; i<=feedback[0]; i++){
+        let rightSquare = document.createElement("div");
+        rightSquare.classList.add("right-square");
+        feedbackContainer.appendChild(rightSquare);
+    }
+    for(let i=1; i<=feedback[1]; i++){
+        let misplacedSquare = document.createElement("div");
+        misplacedSquare.classList.add("misplaced-square");
+        feedbackContainer.appendChild(misplacedSquare);
+    }
+    return feedbackContainer;
+}
+
 function createTargetCombination(combinationLength, colorOptions){
     let targetCombination = [];
     let randomIndex; 
@@ -62,7 +97,6 @@ function combinationsAreEqual(currentCombination, targetCombination){
 //resetear Current Combination (vuelva a ser todos grises)
 function addCurrentCombinationToHistoric(){
     if (validateCurrentCombination(currentCombination)){
-        console.log(currentCombination);
         let newHistoricCombination = document.createElement("div");
         newHistoricCombination.classList.add("historic_combination");
         for(let i=0; i<=currentCombination.length-1; i++){
@@ -71,12 +105,16 @@ function addCurrentCombinationToHistoric(){
             newSquareColor.classList.add(currentCombination[i]);
             newHistoricCombination.insertAdjacentElement("beforeend", newSquareColor);
         }
+        let feedback = generateFeedBack(currentCombination, targetCombination);
+        let feedbackContainer = paintFeedback(feedback);
+        newHistoricCombination.insertAdjacentElement("beforeend", feedbackContainer);
         document.querySelector("#historial").insertAdjacentElement("afterbegin", newHistoricCombination);
         numberOfAttempts++;
         const isUserWinner = combinationsAreEqual(currentCombination, targetCombination);
         if (isUserWinner) window.alert("Has ganado, la última combinación era la correcta");
         const isGameOver = numberOfAttempts == MAX_ATTEMPTS;
         if (isGameOver && !isUserWinner) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
+        
         currentCombination = createCurrentCombination();
         resetCurrentCombinationColors(currentCombination);
         
@@ -89,7 +127,6 @@ function addCurrentCombinationToHistoric(){
 
 const colorButtons = document.querySelectorAll(".color_option_button");
 const targetCombination = createTargetCombination(MAX_COMBINATION_LENGTH, COLOR_OPTIONS);
-console.log(targetCombination);
 let numberOfAttempts = 0;
 let currentCombination = createCurrentCombination();
 for(let i=0; i<=colorButtons.length-1; i++){
