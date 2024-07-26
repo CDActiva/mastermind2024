@@ -68,7 +68,7 @@ function paintCurrentCombination(currentCombination){
     })
 }
 
-function combinationsAreEqual(currentCombination, targetCombination){
+/*function combinationsAreEqual(currentCombination, targetCombination){
     let areCombinationsEqual = true;
     for(let i=0; i<=currentCombination.length-1; i++){
         if (currentCombination[i]!=targetCombination[i]){
@@ -77,7 +77,7 @@ function combinationsAreEqual(currentCombination, targetCombination){
         }
     }
     return areCombinationsEqual;
-}
+}*/
 
 //comprobar que no haya ningún gris
 //resetear Current Combination (vuelva a ser todos grises)
@@ -97,7 +97,9 @@ function addCurrentCombinationToHistoric(){
         newHistoricCombination.insertAdjacentElement("beforeend", feedbackContainer);
         document.querySelector("#historial").insertAdjacentElement("afterbegin", newHistoricCombination);
         numberOfAttempts++;
-        const isUserWinner = combinationsAreEqual(currentCombination, targetCombination);
+       
+        const isUserWinner = currentCombination.every((element, index) => element === targetCombination[index]);
+        //const isUserWinner = combinationsAreEqual(currentCombination, targetCombination);
         if (isUserWinner) window.alert("Has ganado, la última combinación era la correcta");
         const isGameOver = numberOfAttempts == MAX_ATTEMPTS;
         if (isGameOver && !isUserWinner) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
@@ -114,6 +116,7 @@ function addCurrentCombinationToHistoric(){
 
 document.querySelectorAll(".color_option_button");
 const targetCombination = createTargetCombination(MAX_COMBINATION_LENGTH, COLOR_OPTIONS);
+console.log(targetCombination);
 let numberOfAttempts = 0;
 let currentCombination = createCurrentCombination();
 document.querySelectorAll(".color_option_button").forEach((element)=>{
