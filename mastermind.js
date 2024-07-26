@@ -62,11 +62,10 @@ function resetCurrentCombinationColors(){
 }
 
 function paintCurrentCombination(currentCombination){
-    const currentCombinationButtons = document.querySelectorAll(".current_combination_button");
-    for(let i=0; i<=currentCombination.length-1; i++){
-        currentCombinationButtons[i].classList.remove("bg-gray");
-        currentCombinationButtons[i].classList.add(currentCombination[i]);
-    }
+    document.querySelectorAll(".current_combination_button").forEach((element, index)=>{
+        element.classList.remove("bg-gray");
+        element.classList.add(currentCombination[index]);
+    })
 }
 
 function validateCurrentCombination(combination){
