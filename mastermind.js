@@ -13,18 +13,16 @@ function createCurrentCombination(){
 function generateFeedBack(currentCombination, targetCombination){
     let rightPositions = [];
     let misplacedPositions = [];
-    for(let i=0; i<=currentCombination.length-1; i++){
-        if(currentCombination[i]==targetCombination[i]){
-            rightPositions.push(i);
-        }
-    }
-    for(let i=0; i<=currentCombination.length-1; i++){
+    currentCombination.forEach((element, index)=>{
+        if(element==targetCombination[index]) rightPositions.push(index);
+    });
+    currentCombination.forEach((element, i)=>{
         if (rightPositions.indexOf(i)==-1){
-            for(let j=0; j<=targetCombination.length-1; j++){
+            targetCombination.forEach((element, j)=>{
                 if (rightPositions.indexOf(j)==-1 && misplacedPositions.indexOf(i)==-1 && currentCombination[i]==targetCombination[j]) misplacedPositions.push(i);
-            }
+            })
         }
-    }
+    })
     return [rightPositions.length, misplacedPositions.length];
 }
 
@@ -57,11 +55,10 @@ function createTargetCombination(combinationLength, colorOptions){
 
 
 
-function resetCurrentCombinationColors(currentCombination){
-    const currentCombinationButtons = document.querySelectorAll(".current_combination_button");
-    for(let i=0; i<=currentCombination.length-1; i++){
-        currentCombinationButtons[i].setAttribute("class", "current_combination_button bg-gray");
-    }
+function resetCurrentCombinationColors(){
+    document.querySelectorAll(".current_combination_button").forEach(element=>{
+        element.setAttribute("class", "current_combination_button bg-gray");
+    });
 }
 
 function paintCurrentCombination(currentCombination){
@@ -116,7 +113,7 @@ function addCurrentCombinationToHistoric(){
         if (isGameOver && !isUserWinner) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
         
         currentCombination = createCurrentCombination();
-        resetCurrentCombinationColors(currentCombination);
+        resetCurrentCombinationColors();
         
     } else {
         window.alert("Tu combinación de colores no es válida. Tienes que elegir 4 colores");
@@ -125,22 +122,21 @@ function addCurrentCombinationToHistoric(){
 }
 
 
-const colorButtons = document.querySelectorAll(".color_option_button");
+document.querySelectorAll(".color_option_button");
 const targetCombination = createTargetCombination(MAX_COMBINATION_LENGTH, COLOR_OPTIONS);
 let numberOfAttempts = 0;
 let currentCombination = createCurrentCombination();
-for(let i=0; i<=colorButtons.length-1; i++){
-    colorButtons[i].addEventListener("click", (event)=>{  
-        for(let j=0; j<=currentCombination.length-1; j++){
-            if (currentCombination[j]=="bg-gray"){
-                currentCombination[j]=event.target.classList[1];
+document.querySelectorAll(".color_option_button").forEach((element)=>{
+    element.addEventListener("click", (event)=>{  
+        for(let i=0; i<=currentCombination.length-1; i++){
+            if (currentCombination[i]=="bg-gray"){
+                currentCombination[i]=event.target.classList[1];
                 paintCurrentCombination(currentCombination);
                 break;
             }
         }
-        //currentCombination.push(event.target.classList[1]); 
     })
-}
+})
 
 document.querySelectorAll(".current_combination_button").forEach((element, i)=>{
     element.addEventListener("click", (event)=>{
