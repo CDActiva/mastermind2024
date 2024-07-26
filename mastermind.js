@@ -68,16 +68,6 @@ function paintCurrentCombination(currentCombination){
     })
 }
 
-function validateCurrentCombination(combination){
-    let isValidCombination = false;
-    let totalOfGreyElementsInCombination = 0;
-    for (let i=0; i<=combination.length-1; i++){
-        if (combination[i]=="bg-gray") totalOfGreyElementsInCombination++;
-    }
-    if (totalOfGreyElementsInCombination==0) isValidCombination=true;
-    return isValidCombination;
-}
-
 function combinationsAreEqual(currentCombination, targetCombination){
     let areCombinationsEqual = true;
     for(let i=0; i<=currentCombination.length-1; i++){
@@ -92,7 +82,8 @@ function combinationsAreEqual(currentCombination, targetCombination){
 //comprobar que no haya ningún gris
 //resetear Current Combination (vuelva a ser todos grises)
 function addCurrentCombinationToHistoric(){
-    if (validateCurrentCombination(currentCombination)){
+    const isInvalidCombination = currentCombination.includes("bg-gray");
+    if (!isInvalidCombination){
         let newHistoricCombination = document.createElement("div");
         newHistoricCombination.classList.add("historic_combination");
         for(let i=0; i<=currentCombination.length-1; i++){
