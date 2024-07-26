@@ -142,12 +142,13 @@ for(let i=0; i<=colorButtons.length-1; i++){
     })
 }
 
-document.querySelectorAll(".current_combination_button").forEach((element, i)=>{
-    element.addEventListener("click", (event)=>{
+const currentCombinationButtons = document.querySelectorAll(".current_combination_button");
+for(let i=0; i<=currentCombinationButtons.length-1; i++){
+    currentCombinationButtons[i].addEventListener("click", (event)=>{
         event.target.classList.remove(currentCombination[i]);
         event.target.classList.add("bg-gray");
         currentCombination[i]="bg-gray";
     })
-});
+}
 
 document.querySelector("#confirm_current_combination").addEventListener("click", addCurrentCombinationToHistoric);
