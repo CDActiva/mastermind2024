@@ -12,18 +12,22 @@ function createCurrentCombination(){
 
 function generateFeedBack(currentCombination, targetCombination){
     let rightPositions = [];
-    let misplacedPositions = [];
+    let misplacedCurrentPositions = [];
+    let misplacedTargetPositions = [];
     currentCombination.forEach((element, index)=>{
         if(element==targetCombination[index]) rightPositions.push(index);
     });
     currentCombination.forEach((element, i)=>{
         if (rightPositions.indexOf(i)==-1){
             targetCombination.forEach((element, j)=>{
-                if (rightPositions.indexOf(j)==-1 && misplacedPositions.indexOf(i)==-1 && currentCombination[i]==targetCombination[j]) misplacedPositions.push(i);
+                if (rightPositions.indexOf(j)==-1 && misplacedCurrentPositions.indexOf(i)==-1 && misplacedTargetPositions.indexOf(j)==-1 && currentCombination[i]==targetCombination[j]){
+                    misplacedCurrentPositions.push(i);
+                    misplacedTargetPositions.push(j);
+                } 
             })
         }
-    })
-    return [rightPositions.length, misplacedPositions.length];
+    });
+    return [rightPositions.length, misplacedCurrentPositions.length];
 }
 
 
@@ -68,29 +72,20 @@ function paintCurrentCombination(currentCombination){
     })
 }
 
-/*function combinationsAreEqual(currentCombination, targetCombination){
-    let areCombinationsEqual = true;
-    for(let i=0; i<=currentCombination.length-1; i++){
-        if (currentCombination[i]!=targetCombination[i]){
-            areCombinationsEqual = false;
-            break;
-        }
-    }
-    return areCombinationsEqual;
-}*/
+function addColorElementToCombination(backgroundColor){
+    let newSquareColor = document.createElement("div");
+    newSquareColor.classList.add("historic_square");
+    newSquareColor.classList.add(backgroundColor);
+    return newSquareColor;
+}
 
-//comprobar que no haya ningún gris
-//resetear Current Combination (vuelva a ser todos grises)
 function addCurrentCombinationToHistoric(){
     const isInvalidCombination = currentCombination.includes("bg-gray");
     if (!isInvalidCombination){
         let newHistoricCombination = document.createElement("div");
         newHistoricCombination.classList.add("historic_combination");
         for(let i=0; i<=currentCombination.length-1; i++){
-            let newSquareColor = document.createElement("div");
-            newSquareColor.classList.add("historic_square");
-            newSquareColor.classList.add(currentCombination[i]);
-            newHistoricCombination.insertAdjacentElement("beforeend", newSquareColor);
+            newHistoricCombination.insertAdjacentElement("beforeend", addColorElementToCombination(currentCombination[i]));
         }
         let feedback = generateFeedBack(currentCombination, targetCombination);
         let feedbackContainer = paintFeedback(feedback);
@@ -99,7 +94,7 @@ function addCurrentCombinationToHistoric(){
         numberOfAttempts++;
        
         const isUserWinner = currentCombination.every((element, index) => element === targetCombination[index]);
-        //const isUserWinner = combinationsAreEqual(currentCombination, targetCombination);
+        
         if (isUserWinner) window.alert("Has ganado, la última combinación era la correcta");
         const isGameOver = numberOfAttempts == MAX_ATTEMPTS;
         if (isGameOver && !isUserWinner) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
