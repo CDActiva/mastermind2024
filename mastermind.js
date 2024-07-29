@@ -79,6 +79,17 @@ function addColorElementToCombination(backgroundColor){
     return newSquareColor;
 }
 
+function checkUserHasWon(current, target){
+    const isUserWinner = current.every((element, index) => element === target[index]);
+    if (isUserWinner) window.alert("Has ganado, la última combinación era la correcta");
+    return true;
+}
+
+function checkUserHasLost(attempts, userHasWon){
+    const isGameOver = attempts == MAX_ATTEMPTS;
+    if (isGameOver && !userHasWon) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
+}
+
 function addCurrentCombinationToHistoric(){
     const isInvalidCombination = currentCombination.includes("bg-gray");
     if (!isInvalidCombination){
@@ -92,16 +103,10 @@ function addCurrentCombinationToHistoric(){
         newHistoricCombination.insertAdjacentElement("beforeend", feedbackContainer);
         document.querySelector("#historial").insertAdjacentElement("afterbegin", newHistoricCombination);
         numberOfAttempts++;
-       
-        const isUserWinner = currentCombination.every((element, index) => element === targetCombination[index]);
-        
-        if (isUserWinner) window.alert("Has ganado, la última combinación era la correcta");
-        const isGameOver = numberOfAttempts == MAX_ATTEMPTS;
-        if (isGameOver && !isUserWinner) window.alert(`Game Over. La combinación correcta es ${targetCombination}`);
-        
+        let isUserWinner = checkUserHasWon(currentCombination, targetCombination);
+        checkUserHasLost(numberOfAttempts, isUserWinner);
         currentCombination = createCurrentCombination();
-        resetCurrentCombinationColors();
-        
+        resetCurrentCombinationColors(); 
     } else {
         window.alert("Tu combinación de colores no es válida. Tienes que elegir 4 colores");
     }
